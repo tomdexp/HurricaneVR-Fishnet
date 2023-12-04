@@ -955,7 +955,7 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: 2020425801409298464}
   _networkObjectCache: {fileID: 2020425801409298464}
-  socketId: -1
+  _socketId: -1
 --- !u!1 &9010136798197269516 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6326474897994741550, guid: 7937a2a32d314534eb2d8d194c9960ba, type: 3}
@@ -1337,7 +1337,7 @@ PrefabInstance:
     - target: {fileID: 8714938617556675139, guid: 6974999791dc8804fafee05e319aa932, type: 3}
       propertyPath: Transforms.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 797709405632742769}
     - target: {fileID: 9015003508622070302, guid: 6974999791dc8804fafee05e319aa932, type: 3}
       propertyPath: RaycastLayermask.m_Bits
       value: 1048577
@@ -1492,6 +1492,11 @@ Transform:
 --- !u!54 &797709405632742768 stripped
 Rigidbody:
   m_CorrespondingSourceObject: {fileID: 7419787820627669312, guid: 6974999791dc8804fafee05e319aa932, type: 3}
+  m_PrefabInstance: {fileID: 7920259220953527344}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &797709405632742769 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7419787820627669313, guid: 6974999791dc8804fafee05e319aa932, type: 3}
   m_PrefabInstance: {fileID: 7920259220953527344}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &797709405632742770 stripped
@@ -2244,7 +2249,7 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 4520009328790263186}
   _networkObjectCache: {fileID: 4520009328790263186}
-  remoteRemoveComponents:
+  _remoteRemoveComponents:
   - {fileID: 6601885588709634631}
   - {fileID: 6404481658635474445}
   - {fileID: 2489207274845387389}
@@ -2276,7 +2281,7 @@ MonoBehaviour:
   - {fileID: 3100076467371208688}
   - {fileID: 868868968139548235}
   - {fileID: 3858489481071901592}
-  remoteRemoveGameObjects:
+  _remoteRemoveGameObjects:
   - {fileID: 7034945344542025034}
   - {fileID: 2329572869050793157}
   - {fileID: 8847656950995299743}
