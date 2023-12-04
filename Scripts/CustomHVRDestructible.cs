@@ -17,6 +17,11 @@ namespace HurricaneVR.Framework.Components
         private void Awake()
         {
             _networkDestructible = GetComponent<NetworkDestructible>();
+            if (_networkDestructible == null)
+            {
+                Debug.LogError("CustomHVRDestructible requires a NetworkDestructible component, " +
+                               "click on the message to select the GameObject with the issue", this);
+            }
         }
         public override void Destroy()
         {

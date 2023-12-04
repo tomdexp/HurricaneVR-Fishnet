@@ -8,6 +8,12 @@ public class NetworkDamageHandler : NetworkBehaviour
     private void Awake()
     {
         _hvrDamageHandler = GetComponent<CustomHVRDamageHandler>();
+        if (_hvrDamageHandler == null)
+        {
+            Debug.LogError("NetworkDamageHandler requires a CustomHVRDamageHandler component, " +
+                           "click on the message to select the GameObject with the issue", this);
+            return;
+        }
         _hvrDamageHandler.DamageTaken.AddListener(OnDamageTaken);
     }
     private void OnDestroy()

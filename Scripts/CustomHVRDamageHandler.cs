@@ -11,6 +11,12 @@ public class CustomHVRDamageHandler : HVRDamageHandler
     private void Awake()
     {
         _networkDamageHandler = GetComponent<NetworkDamageHandler>();
+        if (_networkDamageHandler == null)
+        {
+            Debug.LogError("CustomHVRDamageHandler requires a NetworkDamageHandler component, " +
+                           "click on the message to select the GameObject with the issue", this);
+            return;
+        }
     }
 
     public override void TakeDamage(float damage)

@@ -1,7 +1,6 @@
 using FishNet.Connection;
 using FishNet.Object;
-using HurricaneVR.Framework.Weapons.Guns;
-using System;
+using UnityEngine;
 
 //Client Authoritative gun solution
 //For Server Authoritative the server would
@@ -14,6 +13,12 @@ public class NetworkGun : NetworkBehaviour
     private void Awake()
     {
         _hvrGunBase = GetComponent<CustomHVRGunBase>();
+        if (_hvrGunBase == null)
+        {
+            Debug.LogError("NetworkGun requires a CustomHVRGunBase component, " +
+                           "click on the message to select the GameObject with the issue", this);
+            return;
+        }
         _hvrGunBase.Fired.AddListener(OnFired);
     }
     private void OnDestroy()

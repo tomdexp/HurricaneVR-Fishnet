@@ -17,7 +17,19 @@ public class NetworkGrabbable : NetworkBehaviour
     {
         _rigidbody = GetComponent<Rigidbody>();
         _hvrGrabbable = GetComponent<HVRGrabbable>();
-
+        if (_rigidbody == null)
+        {
+            Debug.LogError("NetworkGrabbable requires a Rigidbody component, " +
+                           "click on the message to select the GameObject with the issue", this);
+            return;
+        }
+        if (_hvrGrabbable == null)
+        {
+            Debug.LogError("NetworkGrabbable requires a HVRGrabbable component, " +
+                           "click on the message to select the GameObject with the issue", this);
+            return;
+        }
+        
         _hvrGrabbable.Grabbed.AddListener(OnGrabbed);
         _hvrGrabbable.Socketed.AddListener(OnSocketed);
         _hvrGrabbable.UnSocketed.AddListener(OnUnSocketed);

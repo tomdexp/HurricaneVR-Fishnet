@@ -1,5 +1,6 @@
 using FishNet.Object;
 using HurricaneVR.Framework.Components;
+using UnityEngine;
 
 public class NetworkDestructible : NetworkBehaviour
 {
@@ -10,7 +11,12 @@ public class NetworkDestructible : NetworkBehaviour
     private void Awake()
     {
         _hvrDestructible = GetComponent<CustomHVRDestructible>();
-
+        if (_hvrDestructible == null)
+        {
+            Debug.LogError("NetworkDestructible requires a CustomHVRDestructible component, " +
+                           "click on the message to select the GameObject with the issue", this);
+            return;
+        }
         _hvrDestructible.BeforeDestroy.AddListener(OnBeforeDestroy);
     }
 
