@@ -1,21 +1,22 @@
-﻿using HurricaneVR.Framework.Components;
+﻿using FishNet;
+using HurricaneVR.Framework.Components;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class CustomHVRDamageHandler : HVRDamageHandler
 {
     public UnityEvent<float, Vector3, Vector3> DamageTaken = new UnityEvent<float, Vector3, Vector3>();
-    private NetworkDamageHandler networkDamageHandler;
+    private NetworkDamageHandler _networkDamageHandler;
 
     private void Awake()
     {
-        networkDamageHandler = GetComponent<NetworkDamageHandler>();
+        _networkDamageHandler = GetComponent<NetworkDamageHandler>();
     }
 
     public override void TakeDamage(float damage)
     {
         //Only the server sends damage taken event
-        if (networkDamageHandler.isServer)
+        if (InstanceFinder.IsServer)
         {
             //Debug.Log("Server Damage");
             base.TakeDamage(damage);
@@ -30,7 +31,7 @@ public class CustomHVRDamageHandler : HVRDamageHandler
 
     public override void HandleDamageProvider(HVRDamageProvider damageProvider, Vector3 hitPoint, Vector3 direction)
     {
-        if (networkDamageHandler.IsServer)
+        if (_networkDamageHandler.IsServer)
         {
             base.HandleDamageProvider(damageProvider, hitPoint, direction);
             DamageTaken.Invoke(damageProvider.Damage, hitPoint, direction);

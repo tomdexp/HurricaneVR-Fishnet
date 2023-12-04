@@ -3,18 +3,16 @@ using UnityEngine;
 
 public class NetworkDamageHandler : NetworkBehaviour
 {
-    private CustomHVRDamageHandler hVRDamageHandler;
-
-    public bool isServer;
+    private CustomHVRDamageHandler _hvrDamageHandler;
 
     private void Awake()
     {
-        hVRDamageHandler = GetComponent<CustomHVRDamageHandler>();
-        hVRDamageHandler.DamageTaken.AddListener(OnDamageTaken);
+        _hvrDamageHandler = GetComponent<CustomHVRDamageHandler>();
+        _hvrDamageHandler.DamageTaken.AddListener(OnDamageTaken);
     }
     private void OnDestroy()
     {
-        if (hVRDamageHandler) hVRDamageHandler.DamageTaken.RemoveListener(OnDamageTaken);
+        if (_hvrDamageHandler) _hvrDamageHandler.DamageTaken.RemoveListener(OnDamageTaken);
     }
 
     private void OnDamageTaken(float damage, Vector3 hitPoint, Vector3 direction)
@@ -26,19 +24,13 @@ public class NetworkDamageHandler : NetworkBehaviour
     [ObserversRpc(ExcludeServer = true)]
     private void RPCDamageTaken(float damage, Vector3 hitPoint, Vector3 direction)
     {
-        hVRDamageHandler.TakeNetworkDamage(damage, hitPoint, direction);
+        _hvrDamageHandler.TakeNetworkDamage(damage, hitPoint, direction);
     }
-
-    public override void OnStartServer()
-    {
-        base.OnStartServer();
-        //The server will send the damage to itself and update all the clients
-        isServer = true;
-    }
+    
     public override void OnStartClient()
     {
         base.OnStartClient();
         //Client damage handlers should never trigger destruction, it will be handled in NetworkDestructible
-        hVRDamageHandler.Desctructible = null;
+        _hvrDamageHandler.Desctructible = null;
     }
 }

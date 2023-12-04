@@ -9,16 +9,16 @@ using System;
 //and the client would just need to pass its trigger state
 public class NetworkGun : NetworkBehaviour
 {
-    private CustomHVRGunBase hVRGunBase;
+    private CustomHVRGunBase _hvrGunBase;
 
     private void Awake()
     {
-        hVRGunBase = GetComponent<CustomHVRGunBase>();
-        hVRGunBase.Fired.AddListener(OnFired);
+        _hvrGunBase = GetComponent<CustomHVRGunBase>();
+        _hvrGunBase.Fired.AddListener(OnFired);
     }
     private void OnDestroy()
     {
-        if (hVRGunBase) hVRGunBase.Fired.RemoveListener(OnFired);
+        if (_hvrGunBase) _hvrGunBase.Fired.RemoveListener(OnFired);
     }
     private void OnFired()
     {
@@ -32,8 +32,8 @@ public class NetworkGun : NetworkBehaviour
     {
         base.OnStartServer();
         //The server can always shoot upon request of a client
-        hVRGunBase.RequiresAmmo = false;
-        hVRGunBase.RequiresChamberedBullet = false;
+        _hvrGunBase.RequiresAmmo = false;
+        _hvrGunBase.RequiresChamberedBullet = false;
     }
 
     public override void OnOwnershipClient(NetworkConnection prevOwner)
@@ -42,26 +42,26 @@ public class NetworkGun : NetworkBehaviour
         //Only the owner need to track shooting requirements
         if (Owner.IsLocalClient)
         {
-            hVRGunBase.RequiresAmmo = true;
-            hVRGunBase.RequiresChamberedBullet = true;
+            _hvrGunBase.RequiresAmmo = true;
+            _hvrGunBase.RequiresChamberedBullet = true;
         }
         else
         {
             //The observers always shoot upon request of the server
-            hVRGunBase.RequiresAmmo = false;
-            hVRGunBase.RequiresChamberedBullet = false;
+            _hvrGunBase.RequiresAmmo = false;
+            _hvrGunBase.RequiresChamberedBullet = false;
         }
     }
 
     [ServerRpc(RequireOwnership = true)]
     private void RPCShoot()
     {
-        hVRGunBase.NetworkShoot();
+        _hvrGunBase.NetworkShoot();
         ObserversShoot();
     }
     [ObserversRpc(ExcludeOwner = true)]
     private void ObserversShoot()
     {
-        hVRGunBase.NetworkShoot();
+        _hvrGunBase.NetworkShoot();
     }
 }

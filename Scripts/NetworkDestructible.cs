@@ -3,22 +3,22 @@ using HurricaneVR.Framework.Components;
 
 public class NetworkDestructible : NetworkBehaviour
 {
-    private CustomHVRDestructible hVRDestructible;
-    private bool isDestroyed;
-    public bool isServer;
+    private CustomHVRDestructible _hvrDestructible;
+    private bool _isDestroyed;
+    private bool _isServer;
 
     private void Awake()
     {
-        hVRDestructible = GetComponent<CustomHVRDestructible>();
+        _hvrDestructible = GetComponent<CustomHVRDestructible>();
 
-        hVRDestructible.BeforeDestroy.AddListener(OnBeforeDestroy);
+        _hvrDestructible.BeforeDestroy.AddListener(OnBeforeDestroy);
     }
 
     private void OnBeforeDestroy()
     {
-        if (!isDestroyed)
+        if (!_isDestroyed)
         {
-            if (!isServer)
+            if (!_isServer)
             {
                 RPCDestroy();
             }
@@ -27,12 +27,12 @@ public class NetworkDestructible : NetworkBehaviour
     public override void OnStartServer()
     {
         base.OnStartServer();
-        isServer = true;
-        Destroy(hVRDestructible);
+        _isServer = true;
+        Destroy(_hvrDestructible);
     }
     private void OnDestroy()
     {
-        if(hVRDestructible != null) hVRDestructible.BeforeDestroy.RemoveListener(OnBeforeDestroy);
+        if(_hvrDestructible != null) _hvrDestructible.BeforeDestroy.RemoveListener(OnBeforeDestroy);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -47,10 +47,10 @@ public class NetworkDestructible : NetworkBehaviour
     private void ObserversDestroy()
     {
         //Destroy the destructible on the observer clients that still have it
-        if (hVRDestructible != null && !isDestroyed)
+        if (_hvrDestructible != null && !_isDestroyed)
         {
-            isDestroyed = true;
-            hVRDestructible.Destroy();
+            _isDestroyed = true;
+            _hvrDestructible.Destroy();
         }
     }
 }

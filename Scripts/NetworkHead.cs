@@ -1,10 +1,10 @@
 using FishNet.Object;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class NetworkHead : NetworkBehaviour
 {
-    [SerializeField]
-    private Transform headToScale;
+    [FormerlySerializedAs("headToScale")] [SerializeField] private Transform _headToScale;
 
     public override void OnStartClient()
     {
@@ -12,9 +12,9 @@ public class NetworkHead : NetworkBehaviour
         if (!Owner.IsLocalClient)
         {
             //Show the head on remote players for FinalIK
-            if (headToScale)
+            if (_headToScale)
             {
-                headToScale.localScale = Vector3.one;
+                _headToScale.localScale = Vector3.one;
             }
         }
     }

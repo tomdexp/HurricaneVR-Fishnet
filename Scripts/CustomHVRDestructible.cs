@@ -1,3 +1,4 @@
+using FishNet;
 using HurricaneVR.Framework.Core;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,10 +13,10 @@ namespace HurricaneVR.Framework.Components
     public class CustomHVRDestructible : HVRDestructible
     {
         public UnityEvent BeforeDestroy = new UnityEvent();
-        private NetworkDestructible networkDestructible;
+        private NetworkDestructible _networkDestructible;
         private void Awake()
         {
-            networkDestructible = GetComponent<NetworkDestructible>();
+            _networkDestructible = GetComponent<NetworkDestructible>();
         }
         public override void Destroy()
         {
@@ -65,7 +66,7 @@ namespace HurricaneVR.Framework.Components
             }
 
             Destroyed = true;
-            if (networkDestructible && networkDestructible.isServer)
+            if (_networkDestructible && InstanceFinder.IsServer)
             {
                 //Delayed destroy on the server
                 Destroy(gameObject, RemoveDebrisTimerUpper);

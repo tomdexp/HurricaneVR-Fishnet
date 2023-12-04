@@ -2,13 +2,14 @@ using FishNet.Object;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class RemoteComponentsManager : NetworkBehaviour
 {
-    [SerializeField]
-    private List<Component> remoteRemoveComponents;
-    [SerializeField]
-    private List<GameObject> remoteRemoveGameObjects;
+    [FormerlySerializedAs("remoteRemoveComponents")] [SerializeField]
+    private List<Component> _remoteRemoveComponents;
+    [FormerlySerializedAs("remoteRemoveGameObjects")] [SerializeField] 
+    private List<GameObject> _remoteRemoveGameObjects;
 
     public override void OnStartClient()
     {
@@ -20,11 +21,11 @@ public class RemoteComponentsManager : NetworkBehaviour
         }
         // The remote clients should remove all the components and
         // game objects that are included in the lists
-        foreach (var comp in remoteRemoveComponents)
+        foreach (var comp in _remoteRemoveComponents)
         {
             Destroy(comp);
         }
-        foreach (var go in remoteRemoveGameObjects)
+        foreach (var go in _remoteRemoveGameObjects)
         {
             Destroy(go);
         }
@@ -34,11 +35,11 @@ public class RemoteComponentsManager : NetworkBehaviour
         base.OnStartServer();
         // The remote clients should remove all the components and
         // game objects that are included in the lists
-        foreach (var comp in remoteRemoveComponents)
+        foreach (var comp in _remoteRemoveComponents)
         {
             Destroy(comp);
         }
-        foreach (var go in remoteRemoveGameObjects)
+        foreach (var go in _remoteRemoveGameObjects)
         {
             Destroy(go);
         }
